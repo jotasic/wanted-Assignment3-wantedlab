@@ -1,0 +1,44 @@
+version: "3"
+services:
+  wantedlab_dev_local_backend:
+    container_name: wantedlab_dev_local_backend
+    build:
+      context: .
+      dockerfile: ./Dockerfile-dev-local
+    ports:
+      - "8000:8000"
+    depends_on:
+      - wantedlab_dev_local_db
+    restart: always
+    environment:
+      SQL_HOST: wantedlab_dev_local_db
+      SQL_PORT: 5432
+      SQL_DATABASE_NAME: wantedlab
+      SQL_USER: wantedlab
+      SQL_PASSWORD: wantedlab
+      DJANGO_SETTINGS_MODULE: wantedlab.settings.dev_local
+    env_file:
+      - .dockerenv.dev_local
+    command:
+      - bash
+      - -c
+      - |
+        python manage.py wait_for_db_connected -t 120
+        python manage.py migrate
+        python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/usr/src/app/
+  wantedlab_dev_local_db:
+    container_name: wantedlab_dev_local_db
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=wantedlab
+      - POSTGRES_USER=wantedlab
+      - POSTGRES_PASSWORD=wantedlab
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8
+      - TZ="Asia/Seoul"
