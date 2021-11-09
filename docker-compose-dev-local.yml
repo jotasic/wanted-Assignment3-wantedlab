@@ -18,7 +18,7 @@ services:
       SQL_PASSWORD: wantedlab
       DJANGO_SETTINGS_MODULE: wantedlab.settings.dev_local
     env_file:
-      - .dockerenv.dev_local
+      - .dockerenv.dev_local.backend
     command:
       - bash
       - -c
@@ -37,8 +37,5 @@ services:
     volumes:
       - ./postgresql/data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=wantedlab
-      - POSTGRES_USER=wantedlab
-      - POSTGRES_PASSWORD=wantedlab
       - POSTGRES_INITDB_ARGS=--encoding=UTF-8
       - TZ="Asia/Seoul"
