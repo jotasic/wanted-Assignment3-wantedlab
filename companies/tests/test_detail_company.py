@@ -86,7 +86,7 @@ class DetailViewTest(APITestCase):
         header = {"HTTP_x-wanted-language": "en"}
 
         response = self.client.get(
-            '/companies/영어회사1', **header, content_type="application/json"
+            '/companies/한국어회사1', **header, content_type="application/json"
             )
 
         expected_data = {
