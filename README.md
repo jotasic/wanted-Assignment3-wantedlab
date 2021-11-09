@@ -7,7 +7,7 @@
 ## Members
 |이름   |github                   |담당 기능|
 |-------|-------------------------|------------------|
-|김태우 |[jotasic](https://github.com/jotasic)     |개발 환경설정, 모델링, 회사추가 api |
+|김태우 |[jotasic](https://github.com/jotasic)     |개발 환경설정, 모델링, 회사  api |
 |고유영 |[lunayyko](https://github.com/lunayyko)   |회사 검색 api |
 |박지원 |[jiwon5304](https://github.com/jiwon5304) |회사 상세 정보 조회 api |
 
@@ -57,6 +57,7 @@
 <img width="414" alt="Screen Shot 2021-11-10 at 12 23 36 AM" src="https://user-images.githubusercontent.com/8315252/140954209-39b73d6b-2af9-4b7c-b761-265e92f7fe0d.png">
 
 
+
 ## API
 - [Posman Document](https://documenter.getpostman.com/view/16042359/UVC5Enhh)
 
@@ -75,7 +76,49 @@
 
 ### 회사 추가 기능
 - POST "/companies"으로 회사를 등록 합니다.
+- 생성 성공 시, 생성된 값 중 x-wanted-language 헤더값 으로 지정된, 언어의 대한 값을 리턴합니다.
 
+
+### Model에 Jsonfield를 사용한 이유 및 발생 한 문제점
+- 새로운 언어가 추가 될 수 있으므로, 언어 별로 컬럼값을 고정 할 수 없다고 판단하였습니다.
+- 하지만 Jsonfield는 json형태로 저장하면 새로운 언어가 추가되어도 상관없으니 대처가 가능하다고 생각했습니다.
+
+(저장 예시 - Company Model)
+
+|id| company_name                                               |
+|--|------------------------------------------------------------|
+| 1| {"ko": "라인 프레쉬", "tw": "LINE FRESH", "en": "LINE FRESH"} |                     
+
+- 또한 Jsonfield 내의 있는 key 값들을 이용해서 ORM을 작성할 수 있으므로 model 구조의 단순성과 검색의 편의성 두가지를 가질 수 있다고 판단하였습니다.
+- 하지만 기능 중 `2. 회사 이름으로 회사 검색` 은 영어로된 url이 들어와도, header가 한국어면 한국어의 대한 결과를 출력하는 유형이였습니다.
+- 맨 처음에 이 기능을 header가 한국어면 `무조건 한국어로된 url이` 들어온다고 생각했습니다. 그래서 검색조건도 특정 언어를 포함 시켜서 검색을 했습니다.
+
+(검사 조건 예시)
+```python
+company = Company.objects.get(company_name__ko="라인 프레쉬")
+```
+
+- 이 점이 문제가 되는 이유는 
+  - 첫번째 언어가 row마다 다를 수 있습니다. 그러므로 특정언어의 대한 조건으로 검색 못합니다.
+  - Jsonfield 내의 존재하는 key 를 검사할 방법은 있지만 values를 검사할 수 있는 방법은 없습니다.
+  
+- 그래서 비슷한 내용이 있는 data를 가져오는 filter를 실행 후, 각각의 결과를 url과 일치하는 지 비교 후, 완전하게 일치하면 찾은 것으로 로직을 변경하기로 하였습니다.
+```python
+        found_company = None
+        companies = Company.objects.filter(company_name__icontains=name)
+        for company in companies:
+            if name in company.company_name.values():
+                found_company = company
+                break
+
+        if not found_company:
+            raise Http404()
+
+        company_serializer = CompanySerializer(found_company, many=False)
+```
+
+- 과제 조건에 따라서 동작하도록 하였지만, 효율성을 따졌을때는 안 좋은 코드를 만들게 되었습니다.
+- 추후에는 과제조건을 더욱 면밀히 봐서 이러한 상황을 만들지 않도록 노력해야겠다고 느꼈습니다. 
 
 
 ## 배포정보
@@ -171,6 +214,46 @@
     ```bash
     docker-compose -f docker-compose-deploy.yml up -d
     ```
+### Commands
+
+#### import_csv_to_db
+csv 파일을 import 한다. 파일 형식은 `wanted_temp_data.csv`를 참조한다.
+
+##### 사용법
+```bash
+python manage.py import_csv_to_db -p csv_파일경로 --clean=[true or false]
+-p : import할 csv 파일의 경로
+--clean : import전에 현재 저장되어 있는 데이터를 전부 삭제할 지에 대한 여부 (default value : false)
+```
+##### 예시
+```bash
+python manage.py import_csv_to_db -p wanted_temp_data.csv --clean=true
+
+[Start] Delete all data in database...
+[Done] Delete all data in database...
+[Start] import csv data...
+[Success] import csv data...
+[Done] import csv data...
+```
+
+#### export_csv_from_db
+csv 파일을 export 한다. 저장되는 파일 형식은 `wanted_temp_data.csv`를 참조한다.
+
+##### 사용법
+```bash
+python manage.py export_csv_from_db -p csv_파일경로
+-p : export할 csv 파일의 경로
+```
+
+##### 예시
+```bash
+python manage.py export_csv_from_db -p export_wanted_temp.csv
+
+[Start] export csv data...
+[Success] export csv data...
+[Done] import csv data...
+```
+
 
 ## 폴더 구조
 
@@ -187,6 +270,7 @@
 │       └── commands
 │           ├── __init__.py
 │           ├── import_csv_to_db.py
+|           ├── export_csv_from_db.py
 │           └── wait_for_db_connected.py
 ├── companies
 │   ├── __init__.py
