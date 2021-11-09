@@ -1,0 +1,51 @@
+version: "3"
+services:
+  wantedlab-backend:
+    container_name: wantedlab-backend
+    build:
+      context: .
+      dockerfile: ./Dockerfile-deploy
+    depends_on:
+      - wantedlab_deploy_db
+    restart: always
+    environment:
+      SQL_HOST: wantedlab_deploy_db
+      SQL_PORT: 5432
+      DJANGO_SETTINGS_MODULE: wantedlab.settings.deploy
+    env_file:
+      - .dockerenv.deploy.backend
+    command:
+      - bash
+      - -c
+      - |
+        python manage.py wait_for_db_connected -t 120
+        python manage.py migrate
+        python manage.py collectstatic
+        gunicorn wantedlab.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/usr/src/app/
+
+  wantedlab_deploy_db:
+    container_name: wantedlab_deploy_db
+    image: postgres
+    restart: always
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8
+      - TZ="Asia/Seoul"
+    env_file:
+      - .dockerenv.deploy.db
+
+  wantedlab_nginx:
+    image: nginx
+    container_name: wantedlab_nginx
+    volumes:
+      - ./config/nginx:/etc/nginx/conf.d
+      - ./static:/static
+    ports:
+      - "8021:8021"
+    environment:
+      - TZ="Asia/Seoul"
+    depends_on:
+      - wantedlab-backend

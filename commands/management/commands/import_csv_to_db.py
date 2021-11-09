@@ -5,7 +5,7 @@ from django.db.utils             import OperationalError
 from django.core.management.base import BaseCommand
 
 from companies.models            import Company, Tag
-from Execptions                  import FileExtensionNotMatchError
+from execptions                  import FileExtensionNotMatchError
 
 
 class Command(BaseCommand):

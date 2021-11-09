@@ -459,3 +459,6 @@ zsdoc/data
 # docker sql file
 postgresql
 .dockerenv*
+
+# static
+static
