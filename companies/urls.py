@@ -8,5 +8,5 @@ from .views.list_views   import CompanySearchAPIView
 urlpatterns = [
     path('companies/<str:name>', DetailView.as_view(), name ='companyname'),
     path('companies', CompanyCreateAPIView.as_view()),
-    path('companies/search', CompanySearchAPIView.as_view())
+    path('search', CompanySearchAPIView.as_view()),
 ]
