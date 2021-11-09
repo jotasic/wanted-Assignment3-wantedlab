@@ -3,6 +3,7 @@ from rest_framework.test import APITestCase
 
 from companies.models    import Company, Tag
 
+
 class DetailViewTest(APITestCase):
     maxDiff = None
 

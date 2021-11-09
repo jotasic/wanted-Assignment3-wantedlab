@@ -1,15 +1,11 @@
-from django.http.response import Http404
-from django.shortcuts import render, get_object_or_404
-from django.http      import JsonResponse
-
-from rest_framework import status
+from django.http.response      import Http404
+from rest_framework            import status
 from rest_framework.response   import Response
-from rest_framework.views  import APIView
+from rest_framework.views      import APIView
 
-from rest_framework.serializers import Serializer
-
-from companies.models               import Company, Tag
+from companies.models                         import Company
 from companies.serializers.detail_serializers import CompanySerializer
+
 
 class DetailView(APIView):
     def get(self, request, name):
@@ -22,19 +18,18 @@ class DetailView(APIView):
                 found_company = company
                 break
 
-        if found_company is None:
+        if not found_company:
             raise Http404()
 
         company_serializer = CompanySerializer(found_company, many=False)
 
-        tag_list = [] 
-        
+        tag_list = []
         for tag in company_serializer.data['tags']:
             if tag["tag_name"].get(language) is not None:
                 tag_list.append(tag["tag_name"][language])
 
         results = {
                 "company_name" : company_serializer.data["company_name"][language],
-                "tags" : tag_list
+                "tags"         : tag_list
         }
         return Response(results, status=status.HTTP_200_OK)
