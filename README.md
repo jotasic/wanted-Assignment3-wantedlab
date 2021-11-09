@@ -7,9 +7,9 @@
 ## Members
 |이름   |github                   |담당 기능|
 |-------|-------------------------|------------------|
-|김태우 |[jotasic](https://github.com/jotasic)     |개발환경설정, 모델링, 회사 추가 기능|
-|고유영 |[lunayyko](https://github.com/lunayyko)   |회사 검색 기능|
-|박지원 |[jiwon5304](https://github.com/jiwon5304) |회사 상세 정보 조회 기능|
+|김태우 |[jotasic](https://github.com/jotasic)     |개발환경설정, 모델링, 회사 추가 기능, 테스트 케이스|
+|고유영 |[lunayyko](https://github.com/lunayyko)   |회사 검색 기능, 테스트 케이스|
+|박지원 |[jiwon5304](https://github.com/jiwon5304) |회사 상세 정보 조회 기능, 테스트 |
 
 
 ## 과제 내용
@@ -62,8 +62,10 @@
 
 ## 구현 기능
 ### 회사 검색 기능
--
--
+- 헤더에 언어정보가 없으면 한국어를 기본값으로 한다
+- 헤더의 언어정보를 받아서 해당 언어로 된 회사이름을 검색한다
+- 검색결과를 drf serializer를 통해 Json으로 출력한다
+- 한 글자만 들어가도 자동완성으로 검색결과를 출력한다
 ### 회사 상세 정보 조회 기능
 - "/companies/회사이름" 으로 회사이름을 입력합니다.
 - 헤더값(x-wanted-language)으로 'ko' or 'en' or 'ja' 등을 입력합니다.
