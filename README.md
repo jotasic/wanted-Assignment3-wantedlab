@@ -54,7 +54,8 @@
 > - ETC :  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/Github-181717?style=for-the-badge&logo=Github&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/SWAGGER-5B8C04?style=for-the-badge&logo=Swagger&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white"/>
 
 ## 모델링
-**추후 추가**
+
+<img width="414" alt="Screen Shot 2021-11-10 at 12 23 36 AM" src="https://user-images.githubusercontent.com/8315252/140954209-39b73d6b-2af9-4b7c-b761-265e92f7fe0d.png">
 
 
 ## API
