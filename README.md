@@ -7,9 +7,9 @@
 ## Members
 |이름   |github                   |담당 기능|
 |-------|-------------------------|------------------|
-|김태우 |[jotasic](https://github.com/jotasic)     | |
-|고유영 |[lunayyko](https://github.com/lunayyko)   | |
-|박지원 |[jiwon5304](https://github.com/jiwon5304) | |
+|김태우 |[jotasic](https://github.com/jotasic)     |개발환경설정, 모델링, 회사 추가 기능|
+|고유영 |[lunayyko](https://github.com/lunayyko)   |회사 검색 기능|
+|박지원 |[jiwon5304](https://github.com/jiwon5304) |회사 상세 정보 조회 기능|
 
 
 ## 과제 내용
@@ -61,7 +61,17 @@
 **추후 추가**
 
 ## 구현 기능
-**추후 추가**
+### 회사 검색 기능
+-
+-
+### 회사 상세 정보 조회 기능
+- "/companies/회사이름" 으로 회사이름을 입력합니다.
+- 헤더값(x-wanted-language)으로 'ko' or 'en' or 'ja' 등을 입력합니다.
+- 위의 입력정보로 회사이름과 해당언어의 태그를 조회합니다.
+- 검색된 회사가 없는 경우는 404에러를 반환합니다.
+### 회사 추가 기능
+-
+-
 
 
 ## 배포정보
