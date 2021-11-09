@@ -20,7 +20,7 @@ class DetailView(APIView):
         company_serializer = CompanySerializer(company, many=False)
 
         tag_list = [] 
-        print(company_serializer.data)
+        
         for tag in company_serializer.data['tags']:
             tag_list.append(tag["tag_name"][language])
 
