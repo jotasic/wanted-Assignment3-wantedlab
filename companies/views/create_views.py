@@ -4,7 +4,7 @@ from companies.serializers.create_serializers import CompanyCreateSerializer
 from companies.models                         import Company
 
 
-class CompanyCreateCreateAPIView(CreateAPIView):
+class CompanyCreateAPIView(CreateAPIView):
     serializer_class = CompanyCreateSerializer
     
     def get_queryset(self):
