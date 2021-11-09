@@ -86,7 +86,7 @@
 
 
 ## API TEST 방법
-1. 우측 링크를 클릭해서 postman으로 들어갑니다. [링크](https://www.postman.com/wecode-21-1st-kaka0/workspace/assignment3/overview)
+1. 우측 링크를 클릭해서 postman으로 들어갑니다. [링크](https://www.postman.com/wecode-21-1st-kaka0/workspace/assignment3-tw-jw-yy)
 
 2. 정의된 SERVER_URL이 올바른지 확인 합니다. (18.188.189.173:8021)
 ![image](https://user-images.githubusercontent.com/8219812/140955077-cf4755ad-7575-44fa-a865-5be478fc71a1.png)
