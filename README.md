@@ -7,9 +7,9 @@
 ## Members
 |이름   |github                   |담당 기능|
 |-------|-------------------------|------------------|
-|김태우 |[jotasic](https://github.com/jotasic)     |개발환경설정, 모델링, 회사 추가 기능, 테스트 케이스|
-|고유영 |[lunayyko](https://github.com/lunayyko)   |회사 검색 기능, 테스트 케이스|
-|박지원 |[jiwon5304](https://github.com/jiwon5304) |회사 상세 정보 조회 기능, 테스트 |
+|김태우 |[jotasic](https://github.com/jotasic)     |개발 환경설정, 모델링, 회사추가 api |
+|고유영 |[lunayyko](https://github.com/lunayyko)   |회사 검색 api |
+|박지원 |[jiwon5304](https://github.com/jiwon5304) |회사 상세 정보 조회 api |
 
 
 ## 과제 내용
@@ -54,12 +54,11 @@
 > - ETC :  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/Github-181717?style=for-the-badge&logo=Github&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/SWAGGER-5B8C04?style=for-the-badge&logo=Swagger&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white"/>
 
 ## 모델링
-
 <img width="414" alt="Screen Shot 2021-11-10 at 12 23 36 AM" src="https://user-images.githubusercontent.com/8315252/140954209-39b73d6b-2af9-4b7c-b761-265e92f7fe0d.png">
 
 
 ## API
-**추후 추가**
+
 
 ## 구현 기능
 ### 회사 검색 기능
@@ -67,11 +66,13 @@
 - 헤더의 언어정보를 받아서 해당 언어로 된 회사이름을 검색한다
 - 검색결과를 drf serializer를 통해 Json으로 출력한다
 - 한 글자만 들어가도 자동완성으로 검색결과를 출력한다
+-
 ### 회사 상세 정보 조회 기능
 - "/companies/회사이름" 으로 회사이름을 입력합니다.
 - 헤더값(x-wanted-language)으로 'ko' or 'en' or 'ja' 등을 입력합니다.
 - 위의 입력정보로 회사이름과 해당언어의 태그를 조회합니다.
 - 검색된 회사가 없는 경우는 404에러를 반환합니다.
+
 ### 회사 추가 기능
 -
 -
@@ -88,6 +89,7 @@
 1. 우측 링크를 클릭해서 postman으로 들어갑니다. [링크](https://www.postman.com/wecode-21-1st-kaka0/workspace/assignment3/overview)
 
 2. 정의된 SERVER_URL이 올바른지 확인 합니다. (18.188.189.173:8021)
+![image](https://user-images.githubusercontent.com/8219812/140955077-cf4755ad-7575-44fa-a865-5be478fc71a1.png)
 
 
 3. 만약 Send버튼이 비활성화가 될 시 fork를 이용해서 해당 postman project를 복사해서 시도하길 바랍니다.
@@ -110,11 +112,10 @@
     ```
 
 3. docker환경 설정 파일을 만든다.
-      ```text
-      # .dockerenv.dev_local
-      
-      DJANGO_SECRET_KEY='django시크릿키'
-      ```
+    ### .dockerenv.dev.local
+    ```text
+    DJANGO_SECRET_KEY = 'django시크릿키'
+    ```
 
 4. docker-compose를 통해서 db와 서버를 실행시킨다.
     ```bash
@@ -134,20 +135,31 @@
     ```
 
 2. docker환경 설정 파일을 만든다.
+
   
-3. 백엔드 서버용 .dockerenv.deploy_backend 파일을 만들어서 안에 다음과 같은 내용을 입력한다. manage.py와 같은 폴더에 생성한다.
-      
+3. 백엔드 서버용 .dockerenv.deploy.backend 파일을 만들어서 안에 다음과 같은 내용을 입력한다. manage.py와 같은 폴더에 생성한다.
+    ### .dockerenv.dev_local.backend
     ```text
-    # ..dockerenv.deploy_backend
-    DJANGO_SECRET_KEY='django시크릿키'
+    DJANGO_SECRET_KEY = 'django시크릿키'
     ```
    
-4. DB 용 .dockerenv.deploy_db 파일을 만들어서 안에 다음과 같은 내용을 입력한다. manage.py와 같은 폴더에 생성한다.
+4. DB 용 .dockerenv.deploy.db 파일을 만들어서 안에 다음과 같은 내용을 입력한다. manage.py와 같은 폴더에 생성한다.
   
+    ### .dockerenv.deploy.backend
     ```text
-    # .dockerenv.deploy_db
+      SQL_DATABASE_NAME=db이름
+      SQL_USER=db_user이름
+      SQL_PASSWORD=db_비밀번호
+      DJANGO_SECRET_KEY='django시크릿키'
     ```
 
+    ### .dockerenv.deploy.db
+    ```text
+     POSTGRES_DB=db이름
+     POSTGRES_USER=db_user이름
+     POSTGRES_PASSWORD=db_비밀번호
+    ```
+    
 5. docker-compose를 통해서 db와 서버를 실행시킨다.
     
     ```bash
@@ -163,7 +175,64 @@
 ## 폴더 구조
 
 ```bash
-
+├── Dockerfile-deploy
+├── Dockerfile-dev-local
+├── README.md
+├── commands
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   └── management
+│       ├── __init__.py
+│       └── commands
+│           ├── __init__.py
+│           ├── import_csv_to_db.py
+│           └── wait_for_db_connected.py
+├── companies
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   ├── 0002_auto_20211108_1550.py
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── serializers
+│   │   ├── __init__.py
+│   │   ├── create_serializers.py
+│   │   ├── detail_serializers.py
+│   │   └── list_serializers.py
+│   ├── tests
+│   │   ├── __init__.py
+│   │   ├── test_create_company.py
+│   │   ├── test_detail_company.py
+│   │   └── test_search_company.py
+│   ├── urls.py
+│   └── views
+│       ├── __init__.py
+│       ├── create_views.py
+│       ├── detail_views.py
+│       └── list_views.py
+├── config
+│   └── nginx
+│       └── nginx.conf
+├── docker-compose-deploy.yml
+├── docker-compose-dev-local.yml
+├── ex_test_app.py
+├── execptions.py
+├── manage.py
+├── pull_request_template.md
+├── requirements.txt
+├── wanted_temp_data.csv
+└── wantedlab
+    ├── __init__.py
+    ├── asgi.py
+    ├── settings
+    │   ├── base.py
+    │   ├── deploy.py
+    │   └── dev_local.py
+    ├── urls.py
+    └── wsgi.py
 ```
 
 ## TIL정리 (Blog)
