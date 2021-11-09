@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Company(models.Model):
-    company_name = models.JSONField(default=dict)
+    company_name = models.JSONField()
 
     class Meta:
         db_table = 'companies'
@@ -10,7 +10,7 @@ class Company(models.Model):
 
 class Tag(models.Model):
     company  = models.ForeignKey(Company, on_delete=models.CASCADE)
-    tag_name = models.JSONField(default=dict)
+    tag_name = models.JSONField()
 
     class Meta:
         db_table = 'tags'
