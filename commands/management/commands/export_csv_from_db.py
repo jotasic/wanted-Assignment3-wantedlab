@@ -68,4 +68,4 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR(f'Unexpected {err=}, {type(err)=}'))
 
         else:
-            self.stdout.write(self.style.NOTICE('[Done] import csv data...'))
+            self.stdout.write(self.style.NOTICE('[Done] export csv data...'))
