@@ -274,7 +274,6 @@ python manage.py export_csv_from_db -p export_wanted_temp.csv
 [Done] export csv data...
 ```
 
-
 ## 폴더 구조
 
 ```bash
