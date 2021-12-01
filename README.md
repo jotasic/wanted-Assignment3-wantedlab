@@ -4,15 +4,28 @@
 - 과제 출제 기업 정보
   - 기업명 : 원티드랩
 
+
+## 과제 후기
+- https://velog.io/@burnkim61/프리온보딩-과제-3
+
+## 팀 Repository
+- https://github.com/Wanted-Preonboarding-Backend-1st-G5/Assignment3-TW-JW-YY
+
+
 ## Members
 |이름   |github                   |담당 기능|
 |-------|-------------------------|------------------|
-|김태우 |[jotasic](https://github.com/jotasic)     |개발 환경설정, 모델링, 회사  api |
+|김태우 |[jotasic](https://github.com/jotasic)     |개발 환경설정, 모델링, 회사 추가 api |
 |고유영 |[lunayyko](https://github.com/lunayyko)   |회사 검색 api |
 |박지원 |[jiwon5304](https://github.com/jiwon5304) |회사 상세 정보 조회 api |
 
 
 ## 과제 내용
+
+<details>
+  <summary><b>과제 내용 자세히 보기</b></summary>
+<div markdown="1">
+
 > 다음과 같은 내용을 포함하는 테이블을 설계하고 다음과 같은 기능을 제공하는 REST API 서버를 개발해주세요.
 
 - 원티드 선호 기술스택
@@ -47,7 +60,8 @@
 - 필요한 조건이 있다면 추가하셔도 좋습니다.
 - Docker로 개발하면 가산점이 있습니다.
 
-
+  </details>
+  
 ## 사용 기술 및 tools
 > - Back-End :  <img src="https://img.shields.io/badge/Python 3.8-3776AB?style=for-the-badge&logo=Python&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/Django 3.2-092E20?style=for-the-badge&logo=Django&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/PostgreSQL 14.0-0064a5?style=for-the-badge&logo=PostgreSQL&logoColor=white"/>&nbsp;
 > - Deploy : <img src="https://img.shields.io/badge/AWS_EC2-232F3E?style=for-the-badge&logo=Amazon&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/Docker-0052CC?style=for-the-badge&logo=Docker&logoColor=white"/>
@@ -62,6 +76,10 @@
 - [Posman Document](https://documenter.getpostman.com/view/16042359/UVC5Enhh)
 
 ## 구현 기능
+### 회사 추가 기능 - 🙋‍♂️ 담당기능
+- POST "/companies"으로 회사를 등록 합니다.
+- 생성 성공 시, 생성된 값 중 x-wanted-language 헤더값 으로 지정된, 언어의 대한 값을 리턴합니다.
+  
 ### 회사 검색 기능
 - 헤더에 언어정보가 없으면 한국어를 기본값으로 한다
 - 헤더의 언어정보를 받아서 해당 언어로 된 회사이름을 검색한다
@@ -73,10 +91,6 @@
 - 헤더값(x-wanted-language)으로 'ko' or 'en' or 'ja' 등을 입력합니다.
 - 위의 입력정보로 회사이름과 해당언어의 태그를 조회합니다.
 - 검색된 회사가 없는 경우는 404에러를 반환합니다.
-
-### 회사 추가 기능
-- POST "/companies"으로 회사를 등록 합니다.
-- 생성 성공 시, 생성된 값 중 x-wanted-language 헤더값 으로 지정된, 언어의 대한 값을 리턴합니다.
 
 
 ### Model에 Jsonfield를 사용한 이유 및 발생 한 문제점
@@ -140,6 +154,10 @@ company = Company.objects.get(company_name__ko="라인 프레쉬")
 
 
 ## 설치 및 실행 방법
+<details>
+  <summary><b>설치 및 실행  자세히 보기</b></summary>
+<div markdown="1">
+  
 ###  Local 개발 및 테스트용
 
 1. 해당프로젝트를 clone 하고, 프로젝트 폴더로 들어간다.
@@ -214,18 +232,20 @@ company = Company.objects.get(company_name__ko="라인 프레쉬")
     ```bash
     docker-compose -f docker-compose-deploy.yml up -d
     ```
-### Commands
+  </details>  
+ 
+## Commands
 
-#### import_csv_to_db
+### import_csv_to_db
 csv 파일을 import 한다. 파일 형식은 `wanted_temp_data.csv`를 참조한다.
 
-##### 사용법
+#### 사용법
 ```bash
 python manage.py import_csv_to_db -p csv_파일경로 --clean=[true or false]
 -p : import할 csv 파일의 경로
 --clean : import전에 현재 저장되어 있는 데이터를 전부 삭제할 지에 대한 여부 (default value : false)
 ```
-##### 예시
+#### 예시
 ```bash
 python manage.py import_csv_to_db -p wanted_temp_data.csv --clean=true
 
@@ -236,16 +256,16 @@ python manage.py import_csv_to_db -p wanted_temp_data.csv --clean=true
 [Done] import csv data...
 ```
 
-#### export_csv_from_db
+### export_csv_from_db
 csv 파일을 export 한다. 저장되는 파일 형식은 `wanted_temp_data.csv`를 참조한다.
 
-##### 사용법
+#### 사용법
 ```bash
 python manage.py export_csv_from_db -p csv_파일경로
 -p : export할 csv 파일의 경로
 ```
 
-##### 예시
+#### 예시
 ```bash
 python manage.py export_csv_from_db -p export_wanted_temp.csv
 
@@ -318,11 +338,6 @@ python manage.py export_csv_from_db -p export_wanted_temp.csv
     ├── urls.py
     └── wsgi.py
 ```
-
-## TIL정리 (Blog)
-- 김태우 : https://velog.io/@burnkim61/프리온보딩-과제-3
-- 고유영 :
-- 박지원 : 
 
 # Reference
 이 프로젝트는 원티드x위코드 백엔드 프리온보딩 과제 일환으로 원티드랩에서 출제한 과제를 기반으로 만들었습니다.
